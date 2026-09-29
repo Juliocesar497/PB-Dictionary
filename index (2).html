@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PB Dictionary — Aprenda Python</title>
+<meta name="description" content="PB Dictionary — aprenda Python com comandos, exemplos, projetos, desafios, quiz, progresso e professor.">
+
+<style>
+:root{
+    --bg:#0b1120;
+    --bg2:#111827;
+    --card:#172033;
+    --card2:#1d2940;
+    --text:#e5e7eb;
+    --muted:#94a3b8;
+    --primary:#38bdf8;
+    --python:#facc15;
+    --green:#22c55e;
+    --red:#ef4444;
+    --border:#263449;
+    --code:#020617;
+    --sidebar:260px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+    transition:.3s;
+}
+body.light{
+    --bg:#f1f5f9;
+    --bg2:#ffffff;
+    --card:#ffffff;
+    --card2:#f8fafc;
+    --text:#0f172a;
+    --muted:#475569;
+    --border:#dbe3ec;
+    --code:#0f172a;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;left:0;top:0;width:var(--sidebar);height:100vh;
+    background:var(--bg2);border-right:1px solid var(--border);
+    padding:24px 17px;z-index:1000;overflow-y:auto;
+}
+.logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800;margin-bottom:28px}
+.logo-icon{width:42px;height:42px;border-radius:10px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.logo-icon img{width:100%;height:100%;object-fit:contain}
+.logo span{color:var(--primary)}
+.menu-title{
+    color:var(--muted);font-size:10px;letter-spacing:1.2px;
+    text-transform:uppercase;margin:22px 9px 9px;
+}
+.menu a{
+    display:flex;align-items:center;gap:9px;text-decoration:none;
+    color:var(--muted);padding:10px 11px;border-radius:8px;margin-bottom:3px;
+    transition:.2s;font-size:14px;
+}
+.menu a:hover{background:var(--card);color:var(--primary);transform:translateX(3px)}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);min-height:100vh}
+header{
+    position:sticky;top:0;z-index:900;height:72px;
+    display:flex;align-items:center;justify-content:space-between;gap:15px;
+    padding:0 38px;background:rgba(11,17,32,.88);
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--border);
+}
+body.light header{background:rgba(255,255,255,.88)}
+.search{width:470px;max-width:70%}
+.search input{
+    width:100%;padding:11px 15px;border:1px solid var(--border);
+    border-radius:10px;background:var(--card);color:var(--text);outline:none;
+}
+.search input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(56,189,248,.1)}
+.theme{
+    width:42px;height:42px;border:1px solid var(--border);border-radius:10px;
+    background:var(--card);color:var(--text);font-size:18px;
+}
+.hero{
+    padding:78px 8% 70px;
+    background:radial-gradient(circle at 80% 15%,rgba(56,189,248,.14),transparent 32%);
+}
+.hero-label{
+    display:inline-block;color:var(--primary);background:rgba(56,189,248,.1);
+    padding:5px 11px;border-radius:20px;font-size:12px;font-weight:bold;
+}
+.hero h1{font-size:clamp(40px,5vw,68px);line-height:1.08;margin:18px 0}
+.hero h1 span{color:var(--primary)}
+.hero p{max-width:720px;color:var(--muted);font-size:18px}
+.container{max-width:1250px;margin:auto;padding:20px 8% 80px}
+.section{margin-bottom:75px;scroll-margin-top:95px}
+.section-header{margin-bottom:24px}
+.section-header h2{font-size:30px;margin-bottom:5px}
+.section-header p{color:var(--muted)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(275px,1fr));gap:17px}
+.card,.intro-card,.tip,.quiz,.challenge,.editor,.xp-card,.stat-card,.streak-card,
+.bug-card,.complete-card,.teacher,.achievement,.map-node,.glossary-item{
+    background:var(--card);border:1px solid var(--border);border-radius:14px;
+}
+.card{padding:21px;transition:.25s;overflow:hidden}
+.card:hover{transform:translateY(-4px);border-color:var(--primary);box-shadow:0 14px 35px rgba(0,0,0,.18)}
+.card-icon{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:10px;background:rgba(56,189,248,.1);font-size:20px;margin-bottom:13px}
+.card h3{color:var(--primary);margin-bottom:7px}
+.card p,.intro-card p{color:var(--muted)}
+pre{
+    background:var(--code);border:1px solid #1e293b;border-radius:9px;
+    padding:15px;overflow:auto;color:#d1fae5;font:13px/1.6 Consolas,monospace;
+    margin-top:12px;white-space:pre-wrap;
+}
+.intro{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:70px}
+.intro-card{padding:27px}
+.intro-card h2{color:var(--primary);margin-bottom:10px}
+
+/* BUTTONS */
+.primary-btn,.run-btn,.challenge-btn{
+    border:0;background:var(--primary);color:#06111a;font-weight:bold;
+    border-radius:8px;padding:10px 14px;
+}
+.secondary-btn,.copy-btn,.small-btn{
+    border:1px solid var(--border);background:var(--card);color:var(--text);
+    border-radius:8px;padding:9px 13px;
+}
+.primary-btn:hover,.run-btn:hover,.challenge-btn:hover,.secondary-btn:hover,.copy-btn:hover{transform:translateY(-1px)}
+
+/* PROGRESS / XP */
+.progress-wrap,.xp-card{padding:22px}
+.progress-bar,.xp-bar{height:12px;background:var(--border);border-radius:20px;overflow:hidden;margin:12px 0}
+.progress-fill,.xp-fill{height:100%;width:0;background:var(--primary);transition:.5s}
+.xp-top{display:flex;justify-content:space-between;align-items:center;gap:15px}
+.xp-level{color:var(--primary);font-weight:bold}
+.xp-card h3{font-size:28px;margin-top:5px}
+.xp-next{color:var(--muted);font-size:13px}
+.xp-actions{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+
+/* ACHIEVEMENTS */
+.achievement-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px}
+.achievement{padding:20px;text-align:center;transition:.25s}
+.achievement:hover{transform:translateY(-4px)}
+.achievement-icon{font-size:38px;margin-bottom:8px}
+.achievement h3{color:var(--primary);font-size:17px}
+.achievement p{color:var(--muted);font-size:13px;margin-top:5px}
+.achievement.locked{opacity:.35;filter:grayscale(1)}
+.achievement.unlocked{opacity:1;filter:none;border-color:var(--python);box-shadow:0 0 20px rgba(250,204,21,.08)}
+
+/* QUIZ / CHALLENGES */
+.quiz,.challenge,.bug-card,.complete-card{padding:22px}
+.quiz{margin-bottom:15px}
+.quiz-options,.bug-options,.complete-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px;margin-top:13px}
+.quiz-option,.bug-options button,.complete-options button{
+    border:1px solid var(--border);background:var(--bg2);color:var(--text);
+    padding:10px;border-radius:8px;text-align:left;
+}
+.quiz-option:hover,.bug-options button:hover,.complete-options button:hover{border-color:var(--primary)}
+.correct{background:rgba(34,197,94,.16)!important;border-color:var(--green)!important}
+.wrong{background:rgba(239,68,68,.16)!important;border-color:var(--red)!important}
+.feedback{font-weight:bold;margin-top:10px}
+.challenge{margin-bottom:15px}
+.challenge p{color:var(--muted)}
+.answer{margin-top:12px}
+.answer-btn{margin-top:12px}
+
+/* EDITOR */
+.editor{padding:20px}
+.editor textarea{
+    width:100%;min-height:270px;resize:vertical;outline:none;
+    background:var(--code);color:#d1fae5;border:1px solid var(--border);
+    border-radius:9px;padding:16px;font:14px/1.6 Consolas,monospace;
+}
+.editor-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.output{
+    min-height:65px;margin-top:13px;padding:15px;border-radius:9px;
+    background:var(--code);color:#d1fae5;border:1px solid var(--border);
+    white-space:pre-wrap;font:13px/1.6 Consolas,monospace;
+}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+.stat-card{text-align:center;padding:20px}
+.stat-card span{display:block;font-size:29px}
+.stat-card strong{display:block;font-size:28px;color:var(--primary);margin:6px 0}
+.stat-card p{color:var(--muted);font-size:13px}
+
+/* STREAK */
+.streak-card{padding:24px}
+.streak-number{font-size:28px;font-weight:bold;margin-bottom:20px}
+.days{display:flex;justify-content:space-between;gap:8px}
+.day{text-align:center;color:var(--muted)}
+.day span{display:block;font-size:29px;margin-top:4px}
+.day.active span{color:#f97316}
+
+/* MAP */
+.learning-map{display:flex;flex-direction:column;align-items:center}
+.map-node{width:min(520px,92%);text-align:center;padding:19px;transition:.25s}
+.map-node:hover{transform:scale(1.02);border-color:var(--primary)}
+.map-node span{
+    display:inline-flex;width:34px;height:34px;align-items:center;justify-content:center;
+    border-radius:50%;background:var(--primary);color:#06111a;font-weight:bold;
+}
+.map-node h3{color:var(--primary);margin-top:7px}
+.map-node p{color:var(--muted);font-size:13px}
+.map-node.locked{opacity:.4}
+.map-node.master{border-color:var(--python)}
+.map-line{width:3px;height:30px;background:var(--border)}
+
+/* TEACHER */
+.teacher{max-width:850px;margin:auto;overflow:hidden}
+.teacher-header{padding:17px 21px;border-bottom:1px solid var(--border);background:var(--bg2);font-weight:bold;color:var(--primary)}
+.teacher-message{padding:23px;min-height:150px}
+.teacher-buttons{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 20px}
+.teacher-buttons button{
+    padding:9px 12px;border:1px solid var(--border);border-radius:8px;
+    background:var(--bg2);color:var(--text);
+}
+.teacher-buttons button:hover{border-color:var(--primary)}
+.teacher-input{display:flex;gap:8px;padding:19px;border-top:1px solid var(--border)}
+.teacher-input input{
+    flex:1;padding:11px;border:1px solid var(--border);border-radius:8px;
+    background:var(--bg2);color:var(--text);outline:none;
+}
+
+/* GLOSSARY / TIPS */
+.glossary{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.glossary-item{padding:17px}
+.glossary-item strong{display:block;color:var(--primary);margin-bottom:5px}
+.glossary-item span{color:var(--muted);font-size:14px}
+.tips{display:grid;gap:12px}
+.tip{padding:18px;border-left:4px solid var(--python)}
+.tip strong{color:var(--python)}
+.tip p{color:var(--muted);margin-top:4px}
+
+footer{border-top:1px solid var(--border);text-align:center;padding:35px;color:var(--muted)}
+
+@media(max-width:850px){
+    .sidebar{position:static;width:100%;height:auto;border-right:0;border-bottom:1px solid var(--border)}
+    .main{margin-left:0}
+    .menu{display:flex;flex-wrap:wrap;gap:4px}
+    .menu-title{display:none}
+    .menu a{font-size:12px}
+    header{padding:13px 20px}
+    .hero{padding:55px 25px}
+    .container{padding:20px 25px 60px}
+    .intro{grid-template-columns:1fr}
+}
+@media(max-width:500px){
+    .search{max-width:none;width:100%}
+    header{height:auto}
+    .hero h1{font-size:40px}
+    .days{gap:3px}
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div class="logo">
+        <div class="logo-icon">
+            <img src="logo,png.png" alt="Logo PB">
+        </div>
+        PyBase</span>
+    </div>
+
+    <div class="menu-title">Comece aqui</div>
+    <nav class="menu">
+        <a href="#inicio">🏠 Início</a>
+        <a href="#basico">📖 Básico</a>
+        <a href="#condicoes">🔀 Condições</a>
+        <a href="#repeticoes">🔁 Repetições</a>
+        <a href="#listas">📦 Listas</a>
+        <a href="#funcoes">🧩 Funções</a>
+    </nav>
+
+    <div class="menu-title">Prática</div>
+    <nav class="menu">
+        <a href="#editor">💻 Editor</a>
+        <a href="#projetos">🚀 Projetos</a>
+        <a href="#bugs">🐛 Corrija o código</a>
+        <a href="#complete">🧩 Complete</a>
+        <a href="#quiz">🧠 Quiz</a>
+    </nav>
+
+    <div class="menu-title">Seu progresso</div>
+    <nav class="menu">
+        <a href="#xp">⭐ XP e níveis</a>
+        <a href="#conquistas">🏆 Conquistas</a>
+        <a href="#estatisticas">📊 Estatísticas</a>
+        <a href="#sequencia">🔥 Sequência</a>
+        <a href="#mapa">🗺️ Mapa</a>
+    </nav>
+
+    <div class="menu-title">Professor</div>
+    <nav class="menu">
+        <a href="#professor">🤖 Professor Python</a>
+    </nav>
+
+    <div class="menu-title">Referência</div>
+    <nav class="menu">
+        <a href="#extras">📚 Mais códigos</a>
+        <a href="#erros">⚠️ Erros</a>
+        <a href="#glossario">📚 Glossário</a>
+        <a href="#dicas">💡 Dicas</a>
+    </nav>
+</aside>
+
+<main class="main">
+
+<header>
+    <div class="search">
+        <input id="search" type="text" placeholder="🔎 Pesquisar no PB Dictionary...">
+    </div>
+    <button class="theme" id="themeButton" title="Alterar tema">🌙</button>
+</header>
+
+<section class="hero" id="inicio">
+    <span class="hero-label">GUIA INTERATIVO DE PYTHON</span>
+    <h1>Aprenda <span>Python</span> praticando.</h1>
+    <p>
+        Comandos, exemplos, projetos, desafios, quiz, XP, conquistas,
+        mapa de aprendizado e um professor Python em um só lugar.
+    </p>
+</section>
+
+<div class="container">
+
+<section class="intro">
+    <div class="intro-card">
+        <h2>🐍 O que é Python?</h2>
+        <p>
+            Python é uma linguagem de programação conhecida pela sintaxe simples
+            e usada em automação, web, dados, inteligência artificial, jogos e muito mais.
+        </p>
+    </div>
+    <div class="intro-card">
+        <h2>🚀 Sua jornada</h2>
+        <p>
+            Estude um conceito, pratique, resolva desafios, ganhe XP e avance
+            pelo mapa até chegar ao nível Python Master.
+        </p>
+    </div>
+</section>
+
+<!-- PROGRESSO ORIGINAL -->
+<section class="section" id="progresso">
+    <div class="section-header">
+        <h2>📊 Progresso de estudos</h2>
+        <p>Marque seus estudos e acompanhe a evolução.</p>
+    </div>
+    <div class="xp-card">
+        <strong id="studyProgressText">0% concluído</strong>
+        <div class="progress-bar"><div class="progress-fill" id="studyProgressFill"></div></div>
+        <button class="primary-btn" onclick="markStudy()">✓ Marcar conceito estudado</button>
+        <button class="secondary-btn" onclick="resetStudy()">Resetar</button>
+    </div>
+</section>
+
+<!-- XP -->
+<section class="section" id="xp">
+    <div class="section-header">
+        <h2>⭐ XP e níveis</h2>
+        <p>Ganhe experiência completando atividades.</p>
+    </div>
+    <div class="xp-card">
+        <div class="xp-top">
+            <div>
+                <span class="xp-level" id="levelName">🐣 Iniciante</span>
+                <h3 id="xpAmount">0 XP</h3>
+            </div>
+            <div id="levelNumber">Nível 1</div>
+        </div>
+        <div class="xp-bar"><div class="xp-fill" id="xpFill"></div></div>
+        <p class="xp-next" id="xpNext">0 / 100 XP para o próximo nível</p>
+    </div>
+</section>
+
+<!-- CONQUISTAS -->
+<section class="section" id="conquistas">
+    <div class="section-header">
+        <h2>🏆 Conquistas</h2>
+        <p>Desbloqueie medalhas enquanto aprende.</p>
+    </div>
+    <div class="achievement-grid">
+        <div class="achievement locked" id="achievement1"><div class="achievement-icon">🐣</div><h3>Primeiro passo</h3><p>Ganhe 50 XP.</p></div>
+        <div class="achievement locked" id="achievement2"><div class="achievement-icon">💻</div><h3>Programador</h3><p>Ganhe 250 XP.</p></div>
+        <div class="achievement locked" id="achievement3"><div class="achievement-icon">🐛</div><h3>Caçador de Bugs</h3><p>Corrija 5 códigos.</p></div>
+        <div class="achievement locked" id="achievement4"><div class="achievement-icon">🧠</div><h3>Conhecimento</h3><p>Acumule 5 respostas corretas no quiz.</p></div>
+        <div class="achievement locked" id="achievement5"><div class="achievement-icon">🚀</div><h3>Python Explorer</h3><p>Ganhe 500 XP.</p></div>
+        <div class="achievement locked" id="achievement6"><div class="achievement-icon">👑</div><h3>Python Master</h3><p>Ganhe 1000 XP.</p></div>
+    </div>
+</section>
+
+<!-- BÁSICO -->
+<section class="section" id="basico">
+<div class="section-header"><h2>📖 Comandos básicos</h2><p>Os primeiros comandos que você deve aprender.</p></div>
+<div class="cards">
+<article class="card"><div class="card-icon">🖨️</div><h3>print()</h3><p>Mostra informações na tela.</p><pre>print("Olá, mundo!")</pre></article>
+<article class="card"><div class="card-icon">⌨️</div><h3>input()</h3><p>Recebe informações digitadas pelo usuário.</p><pre>nome = input("Digite seu nome: ")
+print(nome)</pre></article>
+<article class="card"><div class="card-icon">📦</div><h3>Variáveis</h3><p>Armazenam informações.</p><pre>nome = "João"
+idade = 20
+altura = 1.75</pre></article>
+<article class="card"><div class="card-icon">🔢</div><h3>int()</h3><p>Converte para inteiro.</p><pre>idade = int(input("Idade: "))</pre></article>
+<article class="card"><div class="card-icon">🔢</div><h3>float()</h3><p>Converte para decimal.</p><pre>preco = float(input("Preço: "))</pre></article>
+<article class="card"><div class="card-icon">🔤</div><h3>str()</h3><p>Converte para texto.</p><pre>numero = 10
+texto = str(numero)</pre></article>
+</div>
+</section>
+
+<!-- CONDIÇÕES -->
+<section class="section" id="condicoes">
+<div class="section-header"><h2>🔀 Condições</h2><p>Faça o programa tomar decisões.</p></div>
+<div class="cards">
+<article class="card"><div class="card-icon">❓</div><h3>if</h3><p>Executa código quando uma condição é verdadeira.</p><pre>idade = 18
+
+if idade >= 18:
+    print("Maior de idade")</pre></article>
+<article class="card"><div class="card-icon">↪️</div><h3>else</h3><p>Executa código quando a condição é falsa.</p><pre>if idade >= 18:
+    print("Adulto")
+else:
+    print("Menor")</pre></article>
+<article class="card"><div class="card-icon">🔀</div><h3>elif</h3><p>Testa outra condição.</p><pre>if idade >= 18:
+    print("Adulto")
+elif idade >= 13:
+    print("Adolescente")
+else:
+    print("Criança")</pre></article>
+</div>
+</section>
+
+<!-- REPETIÇÕES -->
+<section class="section" id="repeticoes">
+<div class="section-header"><h2>🔁 Repetições</h2><p>Execute o mesmo código várias vezes.</p></div>
+<div class="cards">
+<article class="card"><div class="card-icon">🔄</div><h3>for</h3><p>Percorre uma sequência.</p><pre>for numero in range(5):
+    print(numero)</pre></article>
+<article class="card"><div class="card-icon">♻️</div><h3>while</h3><p>Repete enquanto uma condição for verdadeira.</p><pre>contador = 0
+
+while contador < 5:
+    print(contador)
+    contador += 1</pre></article>
+<article class="card"><div class="card-icon">🔢</div><h3>range()</h3><p>Cria uma sequência de números.</p><pre>for i in range(1, 6):
+    print(i)</pre></article>
+</div>
+</section>
+
+<!-- LISTAS -->
+<section class="section" id="listas">
+<div class="section-header"><h2>📦 Listas e estruturas</h2><p>Organize vários valores.</p></div>
+<div class="cards">
+<article class="card"><div class="card-icon">📋</div><h3>list</h3><p>Armazena vários valores.</p><pre>frutas = ["maçã", "banana", "laranja"]</pre></article>
+<article class="card"><div class="card-icon">➕</div><h3>append()</h3><p>Adiciona um item.</p><pre>frutas.append("uva")</pre></article>
+<article class="card"><div class="card-icon">📊</div><h3>len()</h3><p>Retorna a quantidade de elementos.</p><pre>print(len(frutas))</pre></article>
+<article class="card"><div class="card-icon">🗂️</div><h3>dict</h3><p>Armazena chave e valor.</p><pre>pessoa = {
+    "nome": "Carlos",
+    "idade": 25
+}</pre></article>
+</div>
+</section>
+
+<!-- FUNÇÕES -->
+<section class="section" id="funcoes">
+<div class="section-header"><h2>🧩 Funções</h2><p>Crie blocos de código reutilizáveis.</p></div>
+<div class="cards">
+<article class="card"><div class="card-icon">⚙️</div><h3>def</h3><p>Cria uma função.</p><pre>def saudacao():
+    print("Olá!")</pre></article>
+<article class="card"><div class="card-icon">📥</div><h3>Parâmetros</h3><p>Enviam informações para uma função.</p><pre>def saudacao(nome):
+    print("Olá", nome)
+
+saudacao("Maria")</pre></article>
+<article class="card"><div class="card-icon">📤</div><h3>return</h3><p>Retorna um resultado.</p><pre>def soma(a, b):
+    return a + b
+
+print(soma(5, 3))</pre></article>
+</div>
+</section>
+
+<!-- MAIS CÓDIGOS -->
+<section class="section" id="extras">
+<div class="section-header"><h2>📚 Mais códigos Python</h2><p>Recursos importantes para avançar.</p></div>
+<div class="cards">
+<article class="card"><div class="card-icon">➕</div><h3>Operadores</h3><p>Faça cálculos.</p><pre>a = 10
+b = 3
+
+print(a + b)
+print(a - b)
+print(a * b)
+print(a / b)
+print(a % b)
+print(a ** b)</pre></article>
+<article class="card"><div class="card-icon">⚖️</div><h3>Comparações</h3><p>Compare valores.</p><pre>idade = 18
+
+print(idade == 18)
+print(idade != 20)
+print(idade > 15)
+print(idade <= 30)</pre></article>
+<article class="card"><div class="card-icon">🧠</div><h3>and / or / not</h3><p>Combine condições.</p><pre>idade = 20
+carteira = True
+
+if idade >= 18 and carteira:
+    print("Pode dirigir")</pre></article>
+<article class="card"><div class="card-icon">🔤</div><h3>Strings</h3><p>Trabalhe com textos.</p><pre>nome = "Python"
+
+print(nome.upper())
+print(nome.lower())
+print(len(nome))
+print(nome.replace("Python", "Java"))</pre></article>
+<article class="card"><div class="card-icon">📋</div><h3>Tuplas</h3><p>Sequências normalmente usadas sem alterações.</p><pre>cores = ("azul", "verde", "vermelho")
+print(cores[0])</pre></article>
+<article class="card"><div class="card-icon">🗃️</div><h3>Sets</h3><p>Conjuntos guardam valores únicos.</p><pre>numeros = {1, 2, 3, 3, 4}
+print(numeros)</pre></article>
+<article class="card"><div class="card-icon">➕</div><h3>add()</h3><p>Adiciona a um set.</p><pre>frutas = {"maçã", "banana"}
+frutas.add("uva")
+print(frutas)</pre></article>
+<article class="card"><div class="card-icon">🗑️</div><h3>remove()</h3><p>Remove um elemento.</p><pre>frutas = {"maçã", "banana"}
+frutas.remove("banana")</pre></article>
+<article class="card"><div class="card-icon">🔄</div><h3>enumerate()</h3><p>Percorre índice e valor.</p><pre>frutas = ["maçã", "banana"]
+
+for i, fruta in enumerate(frutas):
+    print(i, fruta)</pre></article>
+<article class="card"><div class="card-icon">🔢</div><h3>sum / max / min</h3><p>Operações com números.</p><pre>numeros = [10, 5, 30]
+
+print(sum(numeros))
+print(max(numeros))
+print(min(numeros))</pre></article>
+<article class="card"><div class="card-icon">⚠️</div><h3>try / except</h3><p>Trate erros.</p><pre>try:
+    numero = int(input("Número: "))
+except ValueError:
+    print("Número inválido!")</pre></article>
+<article class="card"><div class="card-icon">📁</div><h3>import</h3><p>Use módulos e bibliotecas.</p><pre>import random
+
+numero = random.randint(1, 10)
+print(numero)</pre></article>
+</div>
+</section>
+
+<!-- PROJETOS -->
+<section class="section" id="projetos">
+<div class="section-header"><h2>🚀 Projetos práticos</h2><p>Combine vários conceitos.</p></div>
+<div class="cards">
+<article class="card"><div class="card-icon">🧮</div><h3>Calculadora</h3><p>input + float + if + operadores.</p><pre>num1 = float(input("Primeiro: "))
+num2 = float(input("Segundo: "))
+op = input("Operação: ")
+
+if op == "+":
+    resultado = num1 + num2
+elif op == "-":
+    resultado = num1 - num2
+elif op == "*":
+    resultado = num1 * num2
+elif op == "/":
+    resultado = num1 / num2
+else:
+    resultado = "Inválida"
+
+print(resultado)</pre></article>
+<article class="card"><div class="card-icon">🎓</div><h3>Sistema de notas</h3><p>Dicionários + listas + for.</p><pre>alunos = {
+    "João": [8, 7, 9],
+    "Maria": [10, 9, 8]
+}
+
+for nome, notas in alunos.items():
+    media = sum(notas) / len(notas)
+
+    if media >= 7:
+        print(nome, "Aprovado")
+    else:
+        print(nome, "Reprovado")</pre></article>
+<article class="card"><div class="card-icon">👥</div><h3>Cadastro</h3><p>while + input + lista + dict.</p><pre>pessoas = []
+
+while True:
+    nome = input("Nome ou sair: ")
+
+    if nome == "sair":
+        break
+
+    idade = int(input("Idade: "))
+    pessoas.append({
+        "nome": nome,
+        "idade": idade
+    })
+
+for pessoa in pessoas:
+    print(pessoa)</pre></article>
+<article class="card"><div class="card-icon">🎯</div><h3>Adivinhação</h3><p>random + while + if.</p><pre>import random
+
+numero = random.randint(1, 10)
+
+while True:
+    tentativa = int(input("Adivinhe: "))
+
+    if tentativa == numero:
+        print("Acertou!")
+        break
+    elif tentativa < numero:
+        print("Maior")
+    else:
+        print("Menor")</pre></article>
+</div>
+</section>
+
+<!-- EDITOR -->
+<section class="section" id="editor">
+<div class="section-header"><h2>💻 Editor Python</h2><p>Teste exemplos simples diretamente na página.</p></div>
+<div class="editor">
+<textarea id="pythonCode">print("Olá, PB Dictionary!")
+
+nome = "Python"
+print("Eu estou aprendendo", nome)</textarea>
+<div class="editor-actions">
+<button class="run-btn" onclick="runPython()">▶ Executar</button>
+<button class="copy-btn" onclick="copyEditor()">📋 Copiar</button>
+</div>
+<div class="output" id="editorOutput">Saída aparecerá aqui...</div>
+<p style="color:var(--muted);font-size:12px;margin-top:8px">
+Este editor possui uma simulação para exemplos básicos. Para executar Python completo no navegador, conecte um runtime como Pyodide.
+</p>
+</div>
+</section>
+
+<!-- BUGS -->
+<section class="section" id="bugs">
+<div class="section-header"><h2>🐛 Corrija o código</h2><p>Encontre o erro e ganhe XP.</p></div>
+<div class="bug-card">
+<h3>Desafio #1</h3>
+<p style="color:var(--muted)">Qual é o problema?</p>
+<pre>nome = input("Digite seu nome: ")
+
+if nome == "Python"
+    print("Olá, Python!")</pre>
+<div class="bug-options">
+<button onclick="checkBug(this,false)">Falta um parêntese</button>
+<button onclick="checkBug(this,true)">Falta o :</button>
+<button onclick="checkBug(this,false)">O input está errado</button>
+<button onclick="checkBug(this,false)">O print está errado</button>
+</div>
+<p class="feedback" id="bugFeedback"></p>
+</div>
+</section>
+
+<!-- COMPLETE -->
+<section class="section" id="complete">
+<div class="section-header"><h2>🧩 Complete o código</h2><p>Escolha a opção correta.</p></div>
+<div class="complete-card">
+<h3>Qual valor deve entrar no espaço?</h3>
+<pre>nome = "Python"
+
+print( ______ )</pre>
+<div class="complete-options">
+<button onclick="checkComplete(this,true)">nome</button>
+<button onclick="checkComplete(this,false)">input</button>
+<button onclick="checkComplete(this,false)">if</button>
+<button onclick="checkComplete(this,false)">for</button>
+</div>
+<p class="feedback" id="completeFeedback"></p>
+</div>
+</section>
+
+<!-- DESAFIOS -->
+<section class="section" id="desafios">
+<div class="section-header"><h2>🏆 Desafios</h2><p>Resolva antes de olhar a resposta.</p></div>
+<div class="challenge"><h3>🟢 Fácil — Saudação</h3><p>Peça o nome e mostre uma saudação.</p><button class="challenge-btn" onclick="showAnswer('answer1',this)">Mostrar resposta</button><pre id="answer1" class="answer hidden">nome = input("Nome: ")
+print("Olá,", nome)</pre></div>
+<div class="challenge"><h3>🟡 Médio — Maior número</h3><p>Peça três números e mostre o maior.</p><button class="challenge-btn" onclick="showAnswer('answer2',this)">Mostrar resposta</button><pre id="answer2" class="answer hidden">a = float(input("Número 1: "))
+b = float(input("Número 2: "))
+c = float(input("Número 3: "))
+
+print("Maior:", max(a, b, c))</pre></div>
+<div class="challenge"><h3>🟠 Intermediário — Contador</h3><p>Conte de 1 até 10 usando while.</p><button class="challenge-btn" onclick="showAnswer('answer3',this)">Mostrar resposta</button><pre id="answer3" class="answer hidden">contador = 1
+
+while contador <= 10:
+    print(contador)
+    contador += 1</pre></div>
+</section>
+
+<!-- QUIZ -->
+<section class="section" id="quiz">
+<div class="section-header"><h2>🧠 Quiz Python</h2><p>Acertou? Você ganha XP.</p></div>
+
+<div class="quiz">
+<h3>1. Qual comando mostra algo na tela?</h3>
+<div class="quiz-options">
+<button class="quiz-option" onclick="answerQuiz(this,false)">input()</button>
+<button class="quiz-option" onclick="answerQuiz(this,true)">print()</button>
+<button class="quiz-option" onclick="answerQuiz(this,false)">show()</button>
+<button class="quiz-option" onclick="answerQuiz(this,false)">display()</button>
+</div><div class="feedback"></div>
+</div>
+
+<div class="quiz">
+<h3>2. Qual estrutura repete enquanto uma condição é verdadeira?</h3>
+<div class="quiz-options">
+<button class="quiz-option" onclick="answerQuiz(this,false)">for</button>
+<button class="quiz-option" onclick="answerQuiz(this,true)">while</button>
+<button class="quiz-option" onclick="answerQuiz(this,false)">repeat</button>
+<button class="quiz-option" onclick="answerQuiz(this,false)">loop</button>
+</div><div class="feedback"></div>
+</div>
+
+<div class="quiz">
+<h3>3. Qual estrutura usa chave e valor?</h3>
+<div class="quiz-options">
+<button class="quiz-option" onclick="answerQuiz(this,false)">list</button>
+<button class="quiz-option" onclick="answerQuiz(this,false)">tuple</button>
+<button class="quiz-option" onclick="answerQuiz(this,true)">dict</button>
+<button class="quiz-option" onclick="answerQuiz(this,false)">set</button>
+</div><div class="feedback"></div>
+</div>
+
+<div class="quiz">
+<h3>4. O que len() retorna?</h3>
+<div class="quiz-options">
+<button class="quiz-option" onclick="answerQuiz(this,false)">A soma</button>
+<button class="quiz-option" onclick="answerQuiz(this,true)">A quantidade de elementos</button>
+<button class="quiz-option" onclick="answerQuiz(this,false)">O maior valor</button>
+<button class="quiz-option" onclick="answerQuiz(this,false)">O menor valor</button>
+</div><div class="feedback"></div>
+</div>
+</section>
+
+<!-- ESTATÍSTICAS -->
+<section class="section" id="estatisticas">
+<div class="section-header"><h2>📊 Suas estatísticas</h2><p>Acompanhe sua evolução.</p></div>
+<div class="stats-grid">
+<div class="stat-card"><span>⭐</span><strong id="statXP">0</strong><p>XP</p></div>
+<div class="stat-card"><span>🏆</span><strong id="statAchievements">0</strong><p>Conquistas</p></div>
+<div class="stat-card"><span>🐛</span><strong id="statBugs">0</strong><p>Bugs corrigidos</p></div>
+<div class="stat-card"><span>🧠</span><strong id="statQuiz">0</strong><p>Quizzes corretos</p></div>
+<div class="stat-card"><span>🚀</span><strong id="statProjects">0</strong><p>Projetos</p></div>
+<div class="stat-card"><span>🔥</span><strong id="statStreak">0</strong><p>Dias seguidos</p></div>
+</div>
+</section>
+
+<!-- SEQUÊNCIA -->
+<section class="section" id="sequencia">
+<div class="section-header"><h2>🔥 Sequência de estudos</h2><p>Volte todos os dias para manter sua sequência.</p></div>
+<div class="streak-card">
+<div class="streak-number">🔥 <span id="streakNumber">0</span> dias</div>
+<div class="days">
+<div class="day">S<br><span>○</span></div>
+<div class="day">T<br><span>○</span></div>
+<div class="day">Q<br><span>○</span></div>
+<div class="day">Q<br><span>○</span></div>
+<div class="day">S<br><span>○</span></div>
+<div class="day">S<br><span>○</span></div>
+<div class="day">D<br><span>○</span></div>
+</div>
+<p id="streakMessage" style="color:var(--muted);margin-top:15px">Estude hoje para começar sua sequência!</p>
+</div>
+</section>
+
+<!-- MAPA -->
+<section class="section" id="mapa">
+<div class="section-header"><h2>🗺️ Mapa de aprendizado</h2><p>Siga sua jornada para dominar Python.</p></div>
+<div class="learning-map">
+<div class="map-node unlocked"><span>1</span><h3>🟢 Fundamentos</h3><p>Variáveis, print e input</p></div>
+<div class="map-line"></div>
+<div class="map-node unlocked"><span>2</span><h3>🔵 Condições</h3><p>if, elif e else</p></div>
+<div class="map-line"></div>
+<div class="map-node unlocked"><span>3</span><h3>🟣 Repetições</h3><p>for, while e range</p></div>
+<div class="map-line"></div>
+<div class="map-node locked"><span>4</span><h3>🟠 Listas</h3><p>Listas, tuplas e sets</p></div>
+<div class="map-line"></div>
+<div class="map-node locked"><span>5</span><h3>🔴 Funções</h3><p>def, parâmetros e return</p></div>
+<div class="map-line"></div>
+<div class="map-node locked"><span>6</span><h3>🟡 Dicionários</h3><p>Chaves e valores</p></div>
+<div class="map-line"></div>
+<div class="map-node locked"><span>7</span><h3>🚀 Projetos</h3><p>Crie programas completos</p></div>
+<div class="map-line"></div>
+<div class="map-node master"><span>👑</span><h3>Python Master</h3><p>Você dominou a jornada!</p></div>
+</div>
+</section>
+
+<!-- PROFESSOR -->
+<section class="section" id="professor">
+<div class="section-header"><h2>🤖 Professor Python</h2><p>Tire dúvidas com o professor integrado.</p></div>
+<div class="teacher">
+<div class="teacher-header">🤖 Professor Python</div>
+<div class="teacher-message" id="teacherMessage">
+Olá! 👋<br><br>
+Eu sou o Professor Python. Escolha uma pergunta ou escreva sua dúvida.
+</div>
+<div class="teacher-buttons">
+<button onclick="askTeacher('variavel')">O que é uma variável?</button>
+<button onclick="askTeacher('for')">Como funciona o for?</button>
+<button onclick="askTeacher('lista')">O que é uma lista?</button>
+<button onclick="askTeacher('funcao')">O que é uma função?</button>
+<button onclick="askTeacher('erro')">Como entender erros?</button>
+<button onclick="askTeacher('set')">O que é um set?</button>
+</div>
+<div class="teacher-input">
+<input id="teacherInput" type="text" placeholder="Digite sua dúvida...">
+<button class="primary-btn" onclick="sendTeacher()">Enviar</button>
+</div>
+</div>
+</section>
+
+<!-- ERROS -->
+<section class="section" id="erros">
+<div class="section-header"><h2>⚠️ Erros comuns</h2><p>Entenda mensagens frequentes do Python.</p></div>
+<div class="cards">
+<article class="card"><h3>SyntaxError</h3><p>Erro na estrutura/sintaxe do código.</p><pre>if idade >= 18
+    print("Adulto")</pre></article>
+<article class="card"><h3>NameError</h3><p>Nome ou variável não definida.</p><pre>print(nome)</pre></article>
+<article class="card"><h3>TypeError</h3><p>Tipos incompatíveis em uma operação.</p><pre>idade = 18
+print("Idade: " + idade)</pre></article>
+<article class="card"><h3>ValueError</h3><p>Valor inválido para uma conversão.</p><pre>idade = int("abc")</pre></article>
+<article class="card"><h3>IndexError</h3><p>Índice inexistente.</p><pre>frutas = ["maçã"]
+print(frutas[5])</pre></article>
+<article class="card"><h3>KeyError</h3><p>Chave inexistente em um dicionário.</p><pre>pessoa = {"nome":"João"}
+print(pessoa["idade"])</pre></article>
+</div>
+</section>
+
+<!-- GLOSSÁRIO -->
+<section class="section" id="glossario">
+<div class="section-header"><h2>📚 Glossário</h2><p>Termos importantes.</p></div>
+<div class="glossary">
+<div class="glossary-item"><strong>Variável</strong><span>Nome usado para armazenar um valor.</span></div>
+<div class="glossary-item"><strong>Função</strong><span>Bloco reutilizável de código.</span></div>
+<div class="glossary-item"><strong>Argumento</strong><span>Valor enviado para uma função.</span></div>
+<div class="glossary-item"><strong>Lista</strong><span>Estrutura que armazena vários valores.</span></div>
+<div class="glossary-item"><strong>Tupla</strong><span>Sequência normalmente usada sem alterações.</span></div>
+<div class="glossary-item"><strong>Set</strong><span>Conjunto de valores únicos.</span></div>
+<div class="glossary-item"><strong>Dicionário</strong><span>Estrutura baseada em chave e valor.</span></div>
+<div class="glossary-item"><strong>Booleano</strong><span>Valor True ou False.</span></div>
+<div class="glossary-item"><strong>Loop</strong><span>Repetição de um bloco de código.</span></div>
+<div class="glossary-item"><strong>Biblioteca</strong><span>Código pronto que pode ser importado.</span></div>
+<div class="glossary-item"><strong>Classe</strong><span>Estrutura usada em orientação a objetos.</span></div>
+<div class="glossary-item"><strong>Módulo</strong><span>Arquivo ou conjunto de código importável.</span></div>
+</div>
+</section>
+
+<!-- DICAS -->
+<section class="section" id="dicas">
+<div class="section-header"><h2>💡 Dicas</h2><p>Boas práticas para aprender Python.</p></div>
+<div class="tips">
+<div class="tip"><strong>01 — Pratique</strong><p>Crie pequenos programas todos os dias.</p></div>
+<div class="tip"><strong>02 — Organize</strong><p>Use nomes claros para variáveis e funções.</p></div>
+<div class="tip"><strong>03 — Leia os erros</strong><p>A mensagem de erro é uma pista importante.</p></div>
+<div class="tip"><strong>04 — Não tenha medo de errar</strong><p>Erros fazem parte do aprendizado.</p></div>
+<div class="tip"><strong>05 — Explique seu código</strong><p>Se você consegue explicar, provavelmente está entendendo.</p></div>
+</div>
+</section>
+
+</div>
+
+<footer>
+<p>🐍 <strong>PB Dictionary</strong></p>
+<p>Aprenda Python. Pratique. Evolua.</p>
+</footer>
+
+</main>
+
+<script>
+/* ================================
+   TEMA
+================================ */
+const themeButton = document.getElementById("themeButton");
+
+if(localStorage.getItem("pbTheme") === "light"){
+    document.body.classList.add("light");
+    themeButton.textContent = "☀️";
+}
+
+themeButton.addEventListener("click",()=>{
+    document.body.classList.toggle("light");
+    const light = document.body.classList.contains("light");
+    themeButton.textContent = light ? "☀️" : "🌙";
+    localStorage.setItem("pbTheme", light ? "light" : "dark");
+});
+
+/* ================================
+   PESQUISA
+================================ */
+const search = document.getElementById("search");
+
+search.addEventListener("input",()=>{
+    const term = search.value.toLowerCase().trim();
+
+    document.querySelectorAll(".card,.quiz,.challenge,.glossary-item,.tip,.intro-card,.bug-card,.complete-card,.achievement,.map-node")
+    .forEach(el=>{
+        el.classList.toggle(
+            "hidden",
+            term !== "" && !el.textContent.toLowerCase().includes(term)
+        );
+    });
+});
+
+document.addEventListener("keydown",(e)=>{
+    if(e.key === "/" && document.activeElement.tagName !== "INPUT"){
+        e.preventDefault();
+        search.focus();
+    }
+});
+
+/* ================================
+   XP
+================================ */
+let xp = Number(localStorage.getItem("pbXP") || 0);
+
+function addXP(amount){
+    xp += amount;
+    localStorage.setItem("pbXP",xp);
+    updateXP();
+}
+
+function updateXP(){
+    const level = Math.floor(xp / 100) + 1;
+    const current = xp % 100;
+
+    const names = [
+        "🐣 Iniciante",
+        "🌱 Aprendiz",
+        "💻 Programador",
+        "🚀 Python Developer",
+        "🐍 Python Expert",
+        "👑 Python Master"
+    ];
+
+    const name = names[Math.min(level-1,names.length-1)];
+
+    document.getElementById("xpAmount").textContent = xp + " XP";
+    document.getElementById("levelNumber").textContent = "Nível " + level;
+    document.getElementById("levelName").textContent = name;
+    document.getElementById("xpFill").style.width = current + "%";
+    document.getElementById("xpNext").textContent =
+        current + " / 100 XP para o próximo nível";
+
+    updateAchievements();
+    updateStats();
+}
+
+/* ================================
+   CONQUISTAS
+================================ */
+let bugs = Number(localStorage.getItem("pbBugs") || 0);
+let quizzes = Number(localStorage.getItem("pbQuiz") || 0);
+
+function unlock(id){
+    const el = document.getElementById(id);
+    if(el){
+        el.classList.remove("locked");
+        el.classList.add("unlocked");
+    }
+}
+
+function updateAchievements(){
+    let count = 0;
+
+    if(xp >= 50){unlock("achievement1");count++}
+    if(xp >= 250){unlock("achievement2");count++}
+    if(bugs >= 5){unlock("achievement3");count++}
+    if(quizzes >= 5){unlock("achievement4");count++}
+    if(xp >= 500){unlock("achievement5");count++}
+    if(xp >= 1000){unlock("achievement6");count++}
+
+    document.getElementById("statAchievements").textContent = count;
+}
+
+/* ================================
+   ESTATÍSTICAS
+================================ */
+function updateStats(){
+    document.getElementById("statXP").textContent = xp;
+    document.getElementById("statBugs").textContent = bugs;
+    document.getElementById("statQuiz").textContent = quizzes;
+    document.getElementById("statProjects").textContent =
+        Number(localStorage.getItem("pbProjects") || 0);
+    document.getElementById("statStreak").textContent =
+        Number(localStorage.getItem("pbStreak") || 0);
+}
+
+/* ================================
+   PROGRESSO
+================================ */
+let studyProgress = Number(localStorage.getItem("pbStudy") || 0);
+
+function updateStudy(){
+    document.getElementById("studyProgressFill").style.width =
+        studyProgress + "%";
+    document.getElementById("studyProgressText").textContent =
+        studyProgress + "% concluído";
+}
+
+function markStudy(){
+    studyProgress = Math.min(studyProgress + 10,100);
+    localStorage.setItem("pbStudy",studyProgress);
+    addXP(10);
+    updateStudy();
+}
+
+function resetStudy(){
+    studyProgress = 0;
+    localStorage.setItem("pbStudy",0);
+    updateStudy();
+}
+
+updateStudy();
+
+/* ================================
+   BUG
+================================ */
+function checkBug(button,correct){
+    const feedback = document.getElementById("bugFeedback");
+
+    if(correct){
+        button.classList.add("correct");
+        feedback.textContent = "✅ Correto! Faltava o : depois da condição.";
+
+        if(!button.dataset.done){
+            button.dataset.done = "1";
+            bugs++;
+            localStorage.setItem("pbBugs",bugs);
+            addXP(50);
+        }
+    }else{
+        button.classList.add("wrong");
+        feedback.textContent = "❌ Ainda não. Tente novamente.";
+    }
+}
+
+/* ================================
+   COMPLETE
+================================ */
+let completeDone = false;
+
+function checkComplete(button,correct){
+    const feedback = document.getElementById("completeFeedback");
+
+    if(correct){
+        button.classList.add("correct");
+        feedback.textContent = "✅ Correto! Você ganhou 30 XP.";
+
+        if(!completeDone){
+            completeDone = true;
+            addXP(30);
+        }
+    }else{
+        button.classList.add("wrong");
+        feedback.textContent = "❌ Tente novamente.";
+    }
+}
+
+/* ================================
+   QUIZ
+================================ */
+function answerQuiz(button,correct){
+    const quiz = button.closest(".quiz");
+    const options = quiz.querySelectorAll(".quiz-option");
+    const feedback = quiz.querySelector(".feedback");
+
+    options.forEach(b=>b.disabled=true);
+
+    if(correct){
+        button.classList.add("correct");
+        feedback.textContent = "✅ Correto! +25 XP";
+
+        if(!quiz.dataset.done){
+            quiz.dataset.done = "1";
+            quizzes++;
+            localStorage.setItem("pbQuiz",quizzes);
+            addXP(25);
+        }
+    }else{
+        button.classList.add("wrong");
+        feedback.textContent = "❌ Incorreto. Revise esse conceito.";
+    }
+}
+
+/* ================================
+   DESAFIOS
+================================ */
+function showAnswer(id,button){
+    const answer = document.getElementById(id);
+
+    answer.classList.toggle("hidden");
+
+    if(!button.dataset.done){
+        button.dataset.done = "1";
+        addXP(10);
+    }
+}
+
+/* ================================
+   EDITOR
+================================ */
+function copyEditor(){
+    navigator.clipboard.writeText(
+        document.getElementById("pythonCode").value
+    );
+
+    document.getElementById("editorOutput").textContent =
+        "📋 Código copiado!";
+}
+
+function runPython(){
+    const code = document.getElementById("pythonCode").value;
+    const output = document.getElementById("editorOutput");
+
+    const matches = [...code.matchAll(/print\s*\((.*?)\)/g)];
+
+    if(!matches.length){
+        output.textContent =
+            "Nenhuma saída detectada. Este editor demonstra exemplos simples.";
+        return;
+    }
+
+    let result = "";
+
+    matches.forEach(match=>{
+        let value = match[1].trim();
+
+        if(/^["'].*["']$/.test(value)){
+            value = value.slice(1,-1);
+        }else{
+            const variable = value.match(/^[A-Za-z_]\w*$/);
+
+            if(variable){
+                const pattern =
+                    new RegExp(
+                        "\\b" + variable[0] +
+                        "\\s*=\\s*[\"']([^\"']*)[\"']"
+                    );
+
+                const found = code.match(pattern);
+
+                if(found) value = found[1];
+            }
+        }
+
+        result += value + "\n";
+    });
+
+    output.textContent = result.trim() || "Nenhuma saída.";
+    addXP(5);
+}
+
+/* ================================
+   SEQUÊNCIA
+================================ */
+let today = new Date().toISOString().split("T")[0];
+let lastStudyDate = localStorage.getItem("pbLastStudy");
+let streak = Number(localStorage.getItem("pbStreak") || 0);
+
+if(lastStudyDate !== today){
+
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate()-1);
+
+    const y =
+        yesterday.toISOString().split("T")[0];
+
+    if(lastStudyDate === y){
+        streak++;
+    }else{
+        streak = 1;
+    }
+
+    localStorage.setItem("pbStreak",streak);
+    localStorage.setItem("pbLastStudy",today);
+}
+
+document.getElementById("streakNumber").textContent = streak;
+
+document.getElementById("streakMessage").textContent =
+    "🔥 Você está estudando há " + streak + " dia(s) seguido(s)!";
+
+const dayElements = document.querySelectorAll(".day");
+
+if(streak > 0){
+    for(let i=0;i<Math.min(streak,7);i++){
+        dayElements[i].classList.add("active");
+        dayElements[i].querySelector("span").textContent = "🔥";
+    }
+}
+
+/* ================================
+   PROFESSOR PYTHON
+================================ */
+function askTeacher(topic){
+
+    const message =
+        document.getElementById("teacherMessage");
+
+    const answers = {
+
+        variavel:
+        "<strong>📦 Variável</strong><br><br>" +
+        "Uma variável guarda um valor usando um nome.<br><br>" +
+        "<pre>nome = \"Python\"\nidade = 20</pre>",
+
+        for:
+        "<strong>🔁 for</strong><br><br>" +
+        "O for percorre uma sequência e executa um bloco de código.<br><br>" +
+        "<pre>for numero in range(5):\n    print(numero)</pre>",
+
+        lista:
+        "<strong>📋 Lista</strong><br><br>" +
+        "Uma lista guarda vários valores e pode ser modificada.<br><br>" +
+        "<pre>frutas = [\"maçã\", \"banana\"]\nfrutas.append(\"uva\")</pre>",
+
+        funcao:
+        "<strong>🧩 Função</strong><br><br>" +
+        "Uma função é um bloco reutilizável de código.<br><br>" +
+        "<pre>def soma(a,b):\n    return a + b</pre>",
+
+        erro:
+        "<strong>🐛 Como entender erros</strong><br><br>" +
+        "Leia o tipo do erro, a linha indicada e a última mensagem. " +
+        "Por exemplo, NameError normalmente indica que um nome não foi definido.",
+
+        set:
+        "<strong>🗃️ Set</strong><br><br>" +
+        "Um set é um conjunto que não mantém valores duplicados.<br><br>" +
+        "<pre>numeros = {1,2,2,3}\nprint(numeros)</pre>"
+    };
+
+    message.innerHTML =
+        answers[topic] ||
+        "Ainda não tenho uma explicação para esse assunto.";
+}
+
+function sendTeacher(){
+
+    const input =
+        document.getElementById("teacherInput");
+
+    const q = input.value.toLowerCase().trim();
+
+    if(!q)return;
+
+    if(q.includes("variável") || q.includes("variavel")){
+        askTeacher("variavel");
+    }
+    else if(q.includes("for") || q.includes("repetição")){
+        askTeacher("for");
+    }
+    else if(q.includes("lista")){
+        askTeacher("lista");
+    }
+    else if(q.includes("função") || q.includes("funcao")){
+        askTeacher("funcao");
+    }
+    else if(q.includes("erro") || q.includes("bug")){
+        askTeacher("erro");
+    }
+    else if(q.includes("set") || q.includes("conjunto")){
+        askTeacher("set");
+    }
+    else{
+        document.getElementById("teacherMessage").innerHTML =
+            "🤖 Ainda não tenho uma resposta pronta para essa pergunta.<br><br>" +
+            "Tente perguntar sobre <strong>variáveis, for, listas, funções, sets ou erros</strong>.";
+    }
+
+    input.value = "";
+}
+
+document.getElementById("teacherInput").addEventListener("keydown",e=>{
+    if(e.key === "Enter") sendTeacher();
+});
+
+/* INICIALIZAÇÃO */
+updateXP();
+updateStats();
+</script>
+
+</body>
+</html>
